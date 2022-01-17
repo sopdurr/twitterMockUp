@@ -1,0 +1,48 @@
+
+.wrapper-one {
+    padding-top: 50px;
+    display: flex;
+    align-items: center;
+}
+
+.profile {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    margin: 20px;
+}
+
+.inputtext {
+    font-size: 20px;
+    height: 30px;
+    width: 400px;
+    color: white;
+    border-top-style: hidden;
+    border-right-style: hidden;
+    border-left-style: hidden;
+    border-bottom-style: hidden;
+    background-color: black;
+}
+
+.inputtext:focus {
+    outline: none;
+}
+
+.iconmessage {
+    color: rgb(29, 155, 240);
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.wrapper-two {
+    width: 82%;
+    color: rgb(29, 155, 240);
+    font-weight: bold;
+    font-size: 15px;
+    margin-left: 75px;
+    border-bottom: 1px solid #fff2;
+}
+
+.margin {
+    margin-bottom: 20px;
+}

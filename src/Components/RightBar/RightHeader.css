@@ -1,0 +1,35 @@
+.rightheader {
+    display: flex;
+  position: relative;
+  min-width: 100px;
+  height: 60px;
+  align-items: center;
+  color: #6f767d;
+}
+
+.search {
+  margin-left: 20px;
+  color: #6f767d;
+  font-size: 15px;
+  border-style: none;
+  border-radius: 50px;
+  height: 45px;
+  width: 70%;
+  padding: 2px 23px 2px 30px;
+  outline: 0;
+  background-color: #212327;
+}
+
+.search-icon {
+  color: #212327;
+  align-items: center;
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  width: 14px;
+}
+
+.search:focus {
+  background-color: black;
+  border: solid 1px rgb(29, 155, 240);
+}

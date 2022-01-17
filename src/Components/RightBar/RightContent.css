@@ -1,0 +1,30 @@
+.right-container {
+  margin-left: 20px;
+  margin-top: 15px;
+  background-color: #16181c;
+  width: 82%;
+  border-radius: 15px;
+}
+
+.right-content {
+    font-size: 20px;
+    font-weight: bolder;
+    padding: 10px;
+}
+
+.gear {
+    position: absolute;
+    right: 100px;
+}
+
+.show-more {
+    color: rgb(29, 155, 240);
+    padding: 20px 20px 20px 10px;
+}
+
+.show-more:hover {
+    background-color: #1D1F23;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+

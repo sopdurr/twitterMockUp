@@ -1,0 +1,31 @@
+.container {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.listwrapper {
+  margin: 0;
+  list-style: none;
+}
+
+.icontext {
+  font-size: 25px;
+  margin: 5px;
+  padding: 8px 25px 8px 10px;
+}
+
+.icontext:hover {
+  border-radius: 50px;
+  background-color: rgb(24, 23, 23);
+  transition: color 100ms ease-out;
+  width: 155px;
+}
+
+span {
+  font-size: 20px;
+  font-weight: 20px;
+  margin-left: 15px;
+}
+
+

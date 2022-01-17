@@ -1,0 +1,83 @@
+.tweet-icon-container {
+  position: absolute;
+  display: flex;
+}
+
+.tweet-icon-wrapper {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.tweet-icon-list {
+  float: left;
+  padding-left: 15px;
+  padding-top: 40px;
+
+  margin-right: 50px;
+}
+
+.bi-chat:hover,
+.bi-upload:hover,
+.bi-bar-chart:hover {
+  border-radius: 50px;
+  color: rgb(29, 155, 240);
+  background-color: #0d1720;
+}
+
+.bi-arrow-repeat:hover {
+  color: #00ba7c;
+}
+
+.bi-heart:hover {
+  color: #f6187f;
+}
+
+.color {
+  color: #f6187f;
+}
+
+body.active-modal {
+  overflow-y: hidden;
+}
+
+.btn-modal {
+  padding: 10px 20px;
+  display: block;
+  margin: 100px auto 0;
+  font-size: 18px;
+}
+
+.modal, .overlay {
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+}
+
+.overlay {
+  background: rgba(49,49,49,0.8);
+}
+.modal-content {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  line-height: 1.4;
+  background: black;
+  padding: 14px 28px;
+  border-radius: 20px;
+  max-width: 600px;
+  min-width: 300px;
+}
+
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px 7px;
+}

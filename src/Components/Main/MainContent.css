@@ -1,0 +1,40 @@
+.tweetWrapper {
+  height: 115px;
+  border-bottom: 1px solid #fff2;
+  display: flex;
+  text-align: center;
+}
+
+.userHandle {
+  margin-top: 20px;
+  margin-left: -20px;
+}
+
+.user {
+  font-weight: bold;
+  font-size: 15px;
+  margin-right: -12px;
+}
+
+.handle {
+  font-weight: bold;
+  font-size: small;
+  color: #6f767d;
+}
+
+.tweetAction {
+  position: absolute;
+  left: 85%;
+  color: #6f767d;
+}
+
+.timestamp {
+  display: inline-block;
+  color: #6f767d;
+}
+
+.tweetlist {
+  position: absolute;
+  padding-left: 15px;
+  padding-top: 7px;
+}

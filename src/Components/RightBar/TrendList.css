@@ -1,0 +1,23 @@
+.content-wrapper {
+    padding: 15px 15px 15px 10px;
+}
+
+.content-wrapper:hover {
+    background-color: #1D1F23;
+}
+
+.trending {
+    color: #6F767D;
+    font-size: 14px;
+}
+
+.hash {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-weight: bold;
+}
+
+.dots {
+    position: absolute;
+    right: 100px;
+}
