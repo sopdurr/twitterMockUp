@@ -1,0 +1,72 @@
+.tweetDetail {
+  padding-top: 50px;
+  height: 300px;
+  border-bottom: 1px solid #fff2;
+}
+
+.userHandleDetail {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.handleDetail {
+  font-weight: bold;
+  font-size: small;
+  color: #6f767d;
+  margin-top: 5px;
+  margin-left: -10px;
+}
+
+.tweetWrapperDetail {
+  height: 100px;
+  display: flex;
+  text-align: center;
+}
+
+.tweetIconWrapper {
+  margin: 5px;
+  position: relative;
+  right: -5%;
+  height: 50px;
+  width: 90%;
+  display: flex;
+  border-bottom: 1px solid #fff2;
+  border-top: 1px solid #fff2;
+  margin-top: 25px;
+}
+
+.tweetIconDetail {
+  margin-top: -25px;
+}
+
+.reply-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.reply-button {
+  border-style: none;
+  display: block;
+  width: 100px;
+  background-color: #1d9bf0;
+  color: white;
+  text-align: center;
+  height: 35px;
+  margin-top: 10px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: bold;
+  margin-right: 15px;
+}
+
+.tweetlistDetail {
+  position: relative;
+  margin-left: -170px;
+  padding-top: 25px;
+}
+
+.date {
+  color: #6f767d;
+  padding-left: 35px;
+  padding-top: 10px;
+}
