@@ -23,6 +23,7 @@ const MainTweet = ({ onChange, content }) => {
         <span className="iconmessage">Everyone can reply</span>
         <div className="margin"></div>
       </div>
+
     </div>
   );
 };

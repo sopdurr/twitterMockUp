@@ -5,6 +5,10 @@
   text-align: center;
 }
 
+.tweetWrapper:hover {
+  background-color: #080808;
+}
+
 .userHandle {
   margin-top: 20px;
   margin-left: -20px;
@@ -37,4 +41,13 @@
   position: absolute;
   padding-left: 15px;
   padding-top: 7px;
+}
+
+.Link {
+  text-decoration: none !important;
+  color: white
+}
+
+.disable {
+  pointer-events: none;
 }

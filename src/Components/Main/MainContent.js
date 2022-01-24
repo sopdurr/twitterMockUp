@@ -1,80 +1,83 @@
 import React, { useState, useEffect } from "react";
-import TweetIconList from "./TweetIconList";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom/";
+import TweetDetail from "./TweetDetail";
+import TweetList from "./TweetList";
+import MainTweet from "./MainTweet";
+import MainBottom from "./MainBottom";
+import useFetch from "../ReUsableComp/useFetch";
+import useFetchUser from "../ReUsableComp/useFetchUser";
+import useDate from "../ReUsableComp/useDate";
 import "./MainContent.css";
-import DeleteButton from "./DeleteButton";
-import ReactTimeAgo from "react-time-ago";
+
 
 const MainContent = () => {
-  const [data, setData] = useState([]);
-  const [user, setUser] = useState("");
+  const { foo, getData } = useFetch("https://localhost:5001/api/tweets");
+  const { user, getUser} = useFetchUser("https://localhost:5001/api/user")
+  const { dateTime } = useDate();
 
-  const getTweets = () => {
-    fetch("https://localhost:5001/api/tweets")
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => { 
-        console.log(data);
-        setData(data);
-      });
+  const info = {
+    content: "",
+    UserId: 1,
+    date: dateTime,
   };
 
-  const getUser = () => {
-    fetch("https://localhost:5001/api/user")
-      .then((res) => {
-        return res.json();
-      })
-      .then((user) => {
-        console.log(user);
-        setUser(user[0].userName);
-      });
-  };
+  const [state, setState] = useState(info);
+  const { content } = state;
 
-  const handleClick = (id) => {
-    fetch(`https://localhost:5001/api/tweets/${id}`, {
-      method: "DELETE",
-    }).then((result) => {
-      console.log(result)
-      getTweets();
+  const handleChange = (event) => {
+    setState({
+      ...state,
+      content: event.target.value,
+      date: dateTime
     });
   };
 
-  
-  
-  useEffect(() => {
-    getTweets();
-    getUser();
-  }, []);
+  const handleClick = () => {
+    const data = state;
+    fetch("https://localhost:5001/api/tweets", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(data),
+    }).then((result) => {
+      console.log(result);
+      console.log(data);
+      setState({...state,
+        content: ""
+      })
+      getData();
+    });
+  };
 
+  const handleClickRemove = (id) => {
+    fetch(`https://localhost:5001/api/tweets/${id}`, {
+      method: "DELETE",
+    }).then((result) => {
+      console.log(result);
+      getData();
+    });
+  };
+
+  useEffect(() => {
+    getUser();
+    getData();
+  },[]);
+  
   return (
-    <div>
-      {data.slice().reverse().map((tweet) => (
-        <div className="tweetWrapper" key={tweet.id}>
-          <img
-            className="profile"
-            src="https://memegenerator.net/img/images/14586937.jpg"
-            alt="futurama"
-          />
-          <div className="userHandle">
-            <span className="user">{user}</span>
-            <span className="handle">
-              @sjomli <i className="bi bi-dot"></i>
-            </span>
-            <div className="timestamp">
-            <ReactTimeAgo date={Date.parse(tweet.date)} locale="en-US" timeStyle="twitter" />
-            </div>
-            <span className="tweetAction">
-              <DeleteButton remove={() => handleClick(tweet.id)} />
-            </span>
-            <div className="tweetlist" value={tweet.id} >{tweet.content}</div>
-            <button value={tweet.id} onClick={(e) => {console.log(e.target.value)}}>
-              get id
-            </button>
-            <TweetIconList />
-          </div>
-        </div>
-      ))}
-    </div>
+    <Router>
+      <Switch>
+        <Route exact path="/">
+          <MainTweet onChange={handleChange} content={content} />
+          <MainBottom submit={handleClick} />
+          <TweetList foo={foo} user={user} remove={handleClickRemove} />
+        </Route>
+        <Route path="/tweet/:id">
+          <TweetDetail user={user} />
+        </Route>
+      </Switch>
+    </Router>
   );
 };
 
