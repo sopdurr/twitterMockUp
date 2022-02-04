@@ -3,7 +3,7 @@ import TweetIconList from "./TweetIconList";
 import DeleteButton from "./DeleteButton";
 import ReactTimeAgo from "react-time-ago";
 
-const TweetList = ({foo, user, remove }) => {
+const TweetList = ({ user, remove, foo, getData, getUser}) => {
   const click = (e) => {
     e.stopPropagation();
     e.preventDefault();
@@ -15,9 +15,9 @@ const TweetList = ({foo, user, remove }) => {
         .slice()
         .reverse()
         .map((tweet) => (
-          <div>
+          <div key={tweet.id}>
             <Link className="Link" to={`/tweet/${tweet.id}`}>
-              <div className="tweetWrapper" key={tweet.id}>
+              <div className="tweetWrapper">
                 <span onClick={click} className="tweetAction">
                   <DeleteButton remove={() => remove(tweet.id)} />
                 </span>
@@ -42,7 +42,13 @@ const TweetList = ({foo, user, remove }) => {
                     {tweet.content}
                   </div>
                   <div onClick={click}>
-                    <TweetIconList foo={foo} tweet={tweet} user={user} />
+                    <TweetIconList
+                      tweet={tweet}
+                      user={user}
+                      likes={tweet.likes}
+                      getData={getData}
+                      getUser={getUser}
+                    />
                   </div>
                 </div>
               </div>

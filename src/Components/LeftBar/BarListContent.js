@@ -44,14 +44,8 @@ const BarListContent = () => {
   return (
     <div>
       {list.map((logo, index) => {
-        return (
-            <BarList 
-            key={index}
-            logo={logo.name} 
-            text={logo.text}
-            />
-            );
-        })}
+        return <BarList key={index} logo={logo.name} text={logo.text} />;
+      })}
       <TweetButton />
     </div>
   );

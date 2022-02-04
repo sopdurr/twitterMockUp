@@ -1,14 +1,15 @@
 import { useState } from "react";
 
-const useLike = (url, id) => {
 
+
+const useLike = (url, id) => {
+  
   const likeInfo = {
     userId: 1,
     tweetId: id
   };
   const [state, setState] = useState(likeInfo);
   const { userId, tweetId } = state;
-
 
   const addLike = () => {
     fetch(url, {
@@ -25,7 +26,7 @@ const useLike = (url, id) => {
     })
   });
   }
-  return {userId, tweetId, addLike}
+  return {addLike}
 }
 
 export default useLike;

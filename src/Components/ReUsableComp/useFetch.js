@@ -2,6 +2,7 @@ import { useState } from "react";
 
 const useFetch = (url) => {
   const [foo, setFoo] = useState([]);  
+  
   const getData = () => {
     fetch(url)
     .then((res) => {
@@ -11,6 +12,7 @@ const useFetch = (url) => {
       setFoo(data)
     });
   }
+  
   return { foo, getData };
 
 };

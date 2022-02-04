@@ -51,3 +51,7 @@
 .disable {
   pointer-events: none;
 }
+
+.addUser {
+  padding-top: 70px;
+}

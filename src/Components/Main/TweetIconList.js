@@ -1,45 +1,66 @@
-import { useState } from "react";
-import "./TweetIconList.css";
+import { useEffect, useState } from "react";
 import Modal from "../Modal";
-import useLike from "../ReUsableComp/useLike";
+import "./TweetIconList.css";
+
 
 const clicked = "bi bi-heart color";
 const hover = "bi bi-heart";
 
-const TweetIconList = ({ id, user, tweet }) => {
-  const [modal, setModal] = useState(false);
+const TweetIconList = ({ user, tweet, likes, getUser, getData }) => {
+  const [modal, setModal] = useState(null);
   const [color, setColor] = useState(hover);
 
-
-  const { userId, tweetId, addLike } = useLike("https://localhost:5001/api/likes", id);
-
-  const likeClick = () => {
-    addLike();
+  const likeInfo = {
+    userId: 1,
+    tweetId: tweet.id,
   };
+  const [like, setLike] = useState(likeInfo);
+  const { userId, tweetId } = like;
+
+  const addLike = () => {
+    fetch("https://localhost:5001/api/likes", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify(likeInfo),
+  }).then((result) => {
+    console.log(result);
+    setLike({...like,
+      userId, tweetId
+    })
+    getData();
+    getUser();
+  });
+  }
+
 
   const toggleModal = () => {
     setModal(!modal);
   };
 
-  const changeColor = () => {
-    likeClick();
-    if (2 < 1) {
-      setColor(hover);
-    } else {
-      setColor(clicked);
-    }
-  };
+  useEffect(() => {
+    getData();
+    getUser();
+  },[])
+
 
   var iconList = [
     {
-      icon: <i onClick={toggleModal} className="bi bi-chat"></i>,
+      icon: (
+        <i onClick={toggleModal} className="bi bi-chat">
+          {tweet.replies.length}
+        </i>
+      ),
     },
     {
       icon: <i className="bi bi-arrow-repeat"></i>,
     },
     {
       icon: (
-        <i onClick={changeColor} className={color}>
+        <i onClick={addLike} className={color}>
+          {likes.length}
         </i>
       ),
     },
@@ -50,8 +71,6 @@ const TweetIconList = ({ id, user, tweet }) => {
       icon: <i className="bi bi-bar-chart"></i>,
     },
   ];
-
-
 
   return (
     <>
@@ -65,7 +84,7 @@ const TweetIconList = ({ id, user, tweet }) => {
         </ul>
       </div>
 
-      {modal && <Modal toggleModal={toggleModal} user={user} tweet={tweet} />}
+      {modal && <Modal toggleModal={toggleModal} user={user} tweet={tweet} getData={getData} getUser={getUser} />}
     </>
   );
 };

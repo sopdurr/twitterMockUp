@@ -9,10 +9,9 @@ import useFetchUser from "../ReUsableComp/useFetchUser";
 import useDate from "../ReUsableComp/useDate";
 import "./MainContent.css";
 
-
 const MainContent = () => {
   const { foo, getData } = useFetch("https://localhost:5001/api/tweets");
-  const { user, getUser} = useFetchUser("https://localhost:5001/api/user")
+  const { user, getUser } = useFetchUser("https://localhost:5001/api/user");
   const { dateTime } = useDate();
 
   const info = {
@@ -28,7 +27,7 @@ const MainContent = () => {
     setState({
       ...state,
       content: event.target.value,
-      date: dateTime
+      date: dateTime,
     });
   };
 
@@ -44,9 +43,7 @@ const MainContent = () => {
     }).then((result) => {
       console.log(result);
       console.log(data);
-      setState({...state,
-        content: ""
-      })
+      setState({ ...state, content: "" });
       getData();
     });
   };
@@ -57,21 +54,89 @@ const MainContent = () => {
     }).then((result) => {
       console.log(result);
       getData();
+      console.log(user.length);
+    });
+  };
+
+  const addUserInfo = {
+    id: 1,
+    userName: "",
+    handle: "",
+  };
+
+  const [getAddUser, setGetAddUser] = useState(addUserInfo);
+  const { userName, handle } = state;
+
+  const userChange = (event) => {
+    setGetAddUser({ ...getUser, userName: event.target.value });
+  };
+
+  const userHandleChange = (event) => {
+    setGetAddUser({ ...getAddUser, handle: event.target.value });
+  };
+
+  const handleAddUser = () => {
+    const addUserInfo = getAddUser;
+    fetch("https://localhost:5001/api/user", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(addUserInfo),
+    }).then((result) => {
+      getUser();
+      console.log(result);
+      console.log(user.length);
     });
   };
 
   useEffect(() => {
     getUser();
     getData();
-  },[]);
-  
+  }, []);
+
   return (
     <Router>
       <Switch>
         <Route exact path="/">
-          <MainTweet onChange={handleChange} content={content} />
-          <MainBottom submit={handleClick} />
-          <TweetList foo={foo} user={user} remove={handleClickRemove} />
+          {user.length > 0 && (
+            <div>
+              <MainTweet onChange={handleChange} content={content} />
+              <MainBottom submit={handleClick} />
+              <TweetList
+                foo={foo}
+                user={user}
+                remove={handleClickRemove}
+                getUser={getUser}
+                getData={getData}
+              />
+            </div>
+          )}
+          {user.length === 0 && (
+            <div className="addUser">
+              <div>Add User</div>
+              <input
+                value={userName}
+                name="name"
+                className="inputtext"
+                type="text"
+                placeholder="Enter name"
+                onChange={userChange}
+              />
+              <input
+                value={handle}
+                name="name"
+                className="inputtext"
+                type="text"
+                placeholder="Enter @handle-nick "
+                onChange={userHandleChange}
+              />
+              <button onClick={handleAddUser} className="button">
+                Add user
+              </button>
+            </div>
+          )}
         </Route>
         <Route path="/tweet/:id">
           <TweetDetail user={user} />

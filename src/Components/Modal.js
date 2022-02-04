@@ -2,8 +2,9 @@ import { useState } from "react";
 import MainBottom from "./Main/MainBottom";
 import ReactTimeAgo from "react-time-ago";
 import useDate from "./ReUsableComp/useDate";
+import './Modal.css'
 
-const Modal = ({ toggleModal, user, tweet }) => {
+const Modal = ({ toggleModal, user, tweet, getUser, getData }) => {
   const {dateTime} = useDate();
 
   const data = {
@@ -33,11 +34,13 @@ const Modal = ({ toggleModal, user, tweet }) => {
       },
       body: JSON.stringify(data),
     }).then((result) => {
+      console.log(result)
       setState({ ...state, replyContent: "" });
       toggleModal();
+      getData();
+      getData();
     });
   };
-
 
   return (
     <div className="modal">
@@ -84,7 +87,7 @@ const Modal = ({ toggleModal, user, tweet }) => {
             />
           </div>
         </div>
-        <MainBottom submit={handleClick} />
+        <MainBottom submit={handleClick}  />
       </div>
     </div>
   );

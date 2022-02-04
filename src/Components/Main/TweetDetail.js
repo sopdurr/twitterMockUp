@@ -1,16 +1,24 @@
 import { useParams, useHistory } from "react-router-dom";
 import { useState, useEffect } from "react";
-import TweetIconList from "./TweetIconList";
-import ReactTimeAgo from "react-time-ago";
+import useLike from "../ReUsableComp/useLike";
 import useDate from "../ReUsableComp/useDate";
+import TweetReplyList from "./TweetReplyList";
 import "./TweetIconList.css";
 import "./TweetDetail.css";
 
 const TweetDetail = ({ user }) => {
-  const {dateTime} = useDate();
+  const { dateTime } = useDate();
   const { id } = useParams();
   const [tweet, setTweet] = useState("");
   const [getReplies, setGetReplies] = useState([]);
+  const [getLikes, setGetLikes] = useState([]);
+
+  const { addLike } = useLike("https://localhost:5001/api/likes", tweet.id);
+
+  const likeClick = () => {
+    addLike();
+    getTweetById();
+  };
 
   const data = {
     replyContent: "",
@@ -21,13 +29,21 @@ const TweetDetail = ({ user }) => {
   const [state, setState] = useState(data);
   const { replyContent } = state;
 
-  const replyInfo = {
-    userId: 1,
-    replyId: 39,
+  const handleClick = () => {
+    const data = state;
+    fetch("https://localhost:5001/api/replies", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(data),
+    }).then((result) => {
+      getTweetById();
+      setState({ ...state, replyContent: "" });
+      console.log(tweet.id);
+    });
   };
-
-  const [reply, setReply] = useState(replyInfo);
-  const { userId, replyId } = reply;
 
   const handleChange = (event) => {
     setState({
@@ -45,24 +61,8 @@ const TweetDetail = ({ user }) => {
       .then((data) => {
         setTweet(data);
         setGetReplies(data.replies);
+        setGetLikes(data.likes);
       });
-  };
-
-  const handleClick = () => {
-    const data = state;
-    fetch("https://localhost:5001/api/replies", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(data),
-    }).then((result) => {
-      console.log(result);
-      console.log(data.id);
-      getTweetById();
-      setState({ ...state, replyContent: "" });
-    });
   };
 
   const handleClickRemove = (id) => {
@@ -74,30 +74,36 @@ const TweetDetail = ({ user }) => {
     });
   };
 
-  const likeClick = () => {
-    fetch("https://localhost:5001/api/replylikes", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(reply),
-    }).then((result) => {
-      console.log(result);
-      setReply({...reply, userId, replyId });
-    });
+  const history = useHistory();
+  const goBack = () => {
+    history.push("/");
   };
 
-  const history = useHistory();
-
-  const goBack = () => {
-    history.push("/")
-  }
+  var iconList = [
+    {
+      icon: <i className="bi bi-chat">{getReplies.length}</i>,
+    },
+    {
+      icon: <i className="bi bi-arrow-repeat"></i>,
+    },
+    {
+      icon: (
+        <i onClick={likeClick} className="bi bi-heart">
+          {getLikes.length}
+        </i>
+      ),
+    },
+    {
+      icon: <i className="bi bi-upload"></i>,
+    },
+    {
+      icon: <i className="bi bi-bar-chart"></i>,
+    },
+  ];
 
   useEffect(() => {
     getTweetById();
-  }, [])
- 
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="tweetDetail">
@@ -108,24 +114,30 @@ const TweetDetail = ({ user }) => {
           alt="futurama"
         />
         <span className="tweetAction">
-        <button onClick={goBack}>
-          Back
-        </button>
+          <button className="back-button" onClick={goBack}>
+            Back
+          </button>
         </span>
         <div className="userHandleDetail">
-          <span className="user">{user}</span>
+          <span className="userTweet">{user}</span>
           <div className="handleDetail">@sjomli</div>
           <div className="tweetlistDetail" value={tweet.id}>
             {tweet.content}
           </div>
         </div>
       </div>
-      <div className="date">{tweet.date}
-    
-      </div>
+      <div className="date">{tweet.date}</div>
       <div className="tweetIconWrapper">
         <div className="tweetIconDetail">
-          <TweetIconList id={id} tweet={tweet} />
+          <div className="tweet-icon-container">
+            <ul className="tweet-icon-wrapper">
+              {iconList.map((icon, index) => (
+                <li key={index} className="tweet-icon-list">
+                  {icon.icon}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
       <div className="reply-wrapper">
@@ -146,52 +158,12 @@ const TweetDetail = ({ user }) => {
           Reply
         </button>
       </div>
-      <div>
-        {getReplies
-          .slice()
-          .reverse()
-          .map((tweet) => (
-            <div className="tweetWrapper" key={tweet.id}>
-              <img
-                className="profile"
-                src="https://memegenerator.net/img/images/14586937.jpg"
-                alt="futurama"
-              />
-              <div className="userHandle">
-                <span className="user">{user}</span>
-                <span className="handle">
-                  @sjomli <i className="bi bi-dot"></i>
-                </span>
-                <div className="timestamp">
-                  <ReactTimeAgo
-                    date={Date.parse(tweet.replyDate)}
-                    locale="en-US"
-                    timeStyle="twitter"
-                  />
-                </div>
-                <span className="tweetAction">
-                  <div className="dropdown">
-                    <button className="dropbtn">
-                      {" "}
-                      <i className="bi bi-three-dots"></i>{" "}
-                    </button>
-                    <div className="dropdown-content">
-                      <i className="bi bi-trash"></i>
-                      <button onClick={() => handleClickRemove(tweet.id)}>
-                        Delete
-                      </button>
-                    </div>
-                  </div>
-                </span>
-                <div className="tweetlist" value={tweet.id}>
-                  {tweet.replyContent}
-                </div>
-                <TweetIconList id={id} />
-                <button onClick={likeClick}>addlike</button>
-              </div>
-            </div>
-          ))}
-      </div>
+      <TweetReplyList
+        user={user}
+        getReplies={getReplies}
+        submit={handleClickRemove}
+        getTweetById={getTweetById}
+      />
     </div>
   );
 };
